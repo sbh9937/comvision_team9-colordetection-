@@ -19,12 +19,12 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 /*
- 蹂??꾨줈?앺듃???덈뱶濡쒖씠??移대찓?쇰? ?댁슜?섏뿬 ?뱀젙 ?됱쓣 (鍮④컙?? 珥덈줉?? ?뚮??? 寃異쒗븯???꾨줈?앺듃?대떎.
- ?쒖옉??: 2017 06 01
+ 본 프로젝트는 안드로이드 카메라를 이용하여 특정 색을 (빨간색, 초록색, 파란색) 검출하는 프로젝트이다.
+ 시작일 : 2017 06 01
  */
 public class MainActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2{
     static{
-        // ?ㅽ뵂 CV 濡쒕뱶
+        // opencv 로드
         if(!OpenCVLoader.initDebug()){
             Log.d("TAG","OpenCV NOT LOADED");
         }   else{
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
 
     }
-    // 珥덇린 媛?
+    // 색 초기값
     int imageLowH = 0;
     int imageHighH = 0;
     int imageLowS = 20;
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         cameraView.setCameraIndex(0);
         cameraView.setCvCameraViewListener(this);
         cameraView.enableView();
-        //踰꾪듉???댁슜?섏뿬 ?먰븯?????쇰줈 諛붽퓞
+        //버튼을 이용하여 원하는 색 으로 바꿈
         findViewById(R.id.Rbutton).setOnClickListener(rClickListener);
         findViewById(R.id.Gbutton).setOnClickListener(gClickListener);
         findViewById(R.id.Bbutton).setOnClickListener(bClickListener);
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         Imgproc.cvtColor(inputFrame.rgba(),imgHSV,Imgproc.COLOR_BGR2HSV);
         Core.inRange(imgHSV, sc1, sc2,imgThresholded);
-        //SC1 怨?SC2??李⑥씠???됱쓣 寃異쒗븳??
+        //SC1 과 SC2의 차이의 색을 검출한다.
         return imgThresholded;
     }
 }
